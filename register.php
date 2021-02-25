@@ -56,7 +56,8 @@
                     </div>
                     <br />
                     <div id="success"></div>
-                            <div class="form-group"><button class="btn btn-primary btn-xl" id="sendMessageButton" type="submit">Pošlji</button></div>
+                    <div class="form-group"><button class="btn btn-primary btn-xl" id="sendMessageButton"
+                            type="submit">Pošlji</button></div>
                 </form>
             </div>
         </div>
