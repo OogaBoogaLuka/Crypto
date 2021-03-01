@@ -1,3 +1,6 @@
+<?php
+    include_once "session.php";
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -35,10 +38,24 @@
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger"
                             href="users.php">Uporabniki</a></li>
-                    <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger"
-                            href="login.php">Prijava</a></li>
-                    <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger"
-                            href="register.php">Registracija</a></li>
+                    <?php  //prva opcija z echo
+                        if (isset($_SESSION['user_id'])) {
+                            $first_name = $_SESSION['first_name'];
+
+                            echo '<li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger"
+                                href="logout.php">Odjava ('.$first_name.')</a></li>';
+                        }
+                        else {
+                    ?>
+                            <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger"
+                                href="login.php">Prijava</a></li>
+                            <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger"
+                                href="register.php">Registracija</a></li>
+                    <?php  //druga opcija brez echo
+                        }
+                    ?>
+                    
+                    
                 </ul>
             </div>
         </div>

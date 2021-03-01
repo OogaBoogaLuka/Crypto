@@ -3,7 +3,7 @@
             ?>
 
 
-<a href="users.php">Uporabniki</a>
+<a href="users.php"></br>Uporabniki</a>
 
 <?php
             include_once "footer.php";
