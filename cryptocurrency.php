@@ -63,7 +63,7 @@
 <div class="komentarji" id="komentarji">
     <div class="obrazec">
         <form action="comment_insert.php" method="post">
-            <input type="hidden" name="id" value="<?php echo $crypto['id'];?>"/>
+            <input type="hidden" name="id" value="<?php echo $crypto['id'];?>" />
             <textarea name="content" rows="5" cols="25"></textarea> <br />
             <input type="submit" value="Komentiraj" class="btn btn-primary" />
         </form>
@@ -76,22 +76,74 @@
         
             while ($row = $stmt->fetch()) {
                 ?>
-                <div class="komentar">
-                    <div class="oseba"><?php echo getFullName($row['user_id']).' ('.date('j. n. Y H:i',strtotime($row['date_add']));?>)</div>
-                    <div class="vsebina"><?php echo $row['content'];?></div>
-                </div><?php
+        <div class="komentar">
+            <?php
+                    if ($_SESSION['user_id'] == $row['user_id']) {
+                        echo '<a href="comment_delete.php?id='.$row['id'].'" onclick="return confirm(\'Prepričani?\')">x</a>';
+                        echo '<div class="portfolio-item mx-auto" data-toggle="modal" data-target="#portfolioModal'.$row['id'].'">u</div>';
+                        //modalno okno za urejanje 
+                        ?>
+            <div class="portfolio-modal modal fade" id="portfolioModal1" tabindex="-1" role="dialog"
+                aria-labelledby="portfolioModal1Label" aria-hidden="true">
+                <div class="modal-dialog modal-xl" role="document">
+                    <div class="modal-content">
+                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true"><i class="fas fa-times"></i></span>
+                        </button>
+                        <div class="modal-body text-center">
+                            <div class="container">
+                                <div class="row justify-content-center">
+                                    <div class="col-lg-8">
+                                        <!-- Portfolio Modal - Title-->
+                                        <h2 class="portfolio-modal-title text-secondary text-uppercase mb-0"
+                                            id="portfolioModal1Label">Uredi komentar</h2>
+                                        <!-- Icon Divider-->
+                                        <div class="divider-custom">
+                                            <div class="divider-custom-line"></div>
+                                            <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+                                            <div class="divider-custom-line"></div>
+                                        </div>
+                                        <form action="comment_update.php" method="post">
+                                            <input type="hidden" name="id" value="<?php echo $row['id'];?>" />
+                                            <textarea name="content" rows="5" cols="25"><?php echo $row['content'];?></textarea> <br />
+                                            <input type="submit" value="Uredi" class="btn btn-primary" />
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> <?php
+                    }
+                    ?>
+
+            <div class="oseba">
+                <?php echo getFullName($row['user_id']).' ('.date('j. n. Y H:i',strtotime($row['date_add']));?>)</div>
+            <div class="vsebina"><?php echo $row['content'];?></div>
+        </div><?php
             }
         
         ?>
-        
+
     </div>
 </div>
 
 <br />
-<a href="cryptocurrency_delete.php?id=<?php echo $crypto['id'];?>" class="btn btn-primary"
-    onclick="return confirm('Prepričani?')">Izbriši</a>
 
-<a href="cryptocurrency_edit.php?id=<?php echo $crypto['id'];?>" class="btn btn-primary">Uredi</a>
+<?php
+
+    if(admin()) {
+        ?>
+        <a href="cryptocurrency_delete.php?id=<?php echo $crypto['id'];?>" class="btn btn-primary"
+        onclick="return confirm('Prepričani?')">Izbriši</a>
+
+        <a href="cryptocurrency_edit.php?id=<?php echo $crypto['id'];?>" class="btn btn-primary">Uredi</a>
+        <?php
+    }
+
+?>
+
 
 <?php
     include_once "footer.php";

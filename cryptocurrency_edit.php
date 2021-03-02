@@ -1,5 +1,6 @@
 <?php
     include_once "header.php";
+    adminOnly();
     include_once "database.php";
 
     $id = (int) $_GET['id'];

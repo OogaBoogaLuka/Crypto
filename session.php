@@ -19,4 +19,15 @@ function getFullName($user_id) {
     return $user['first_name'].' '.$user['last_name'];
 }
 
+function admin() {
+    return $_SESSION['admin'];
+}
+
+function adminOnly() {
+    if(!isset($_SESSION['admin']) || ($_SESSION['admin'] == 1)) {
+        header("Location: index.php");
+        die();
+    }
+}
+
 ?>

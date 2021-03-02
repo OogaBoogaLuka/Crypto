@@ -47,8 +47,11 @@
 </section>
 
 <br />
+<?php if(admin()) {
+    echo '<a href="cryptocurrency_add.php" class="btn btn-primary">Dodaj valuto</a>';
+}
+?>
 
-<a href="cryptocurrency_add.php" class="btn btn-primary">Dodaj valuto</a>
 
 <?php
     include_once "footer.php";
