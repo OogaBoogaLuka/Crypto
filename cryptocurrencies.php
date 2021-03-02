@@ -28,12 +28,13 @@
                 ?>
                 <div class="col-md-6 col-lg-4 mb-5">
                 <div class="portfolio-item mx-auto">
+                    <a href="cryptocurrency.php?id=<?php echo $row['id']; ?>">
                     <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
                         <div class="portfolio-item-caption-content text-center text-white"><?php
                             echo $row['current_price'];
                         ?></div>
                     </div>
-                    <img class="img-fluid" src="assets/img/portfolio/cabin.png" alt="" />
+                    <img class="img-fluid" src="<?php echo $row['logo']; ?>" alt="" width="" />
                     <h3 class="justify-content-center row align-items-center"><?php echo $row['title']; ?></h3>
                 </div>
             </div>
@@ -44,8 +45,6 @@
         </div>
     </div>
 </section>
-
-
 
 <br />
 
