@@ -35,7 +35,75 @@
         <div class="crypto_price">Trenutna cena: <span><?php echo $crypto['current_price'];?></span></div>
         <div class="crypto_rating">Trenutna ocena: <span><?php echo round($crypto['rating'],1);?></span></div>
     </div>
+    <?php
+        if (admin()) {
+    ?>
+    <div class="upload_slik">
+        <form action="image_insert.php" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="id" value="<?php echo $crypto['id'];?>" />
+            <input type="text" name="title" placeholder="Vnesi naslov fotografije" /><br />
+            <input type="file" name="url" required="required" /><br />
+            <input type="submit" value="Naloži" />
+        </form>
+    </div>
+    <?php
+        }
+    ?>
 </section>
+<div class="container">
+    <?php
+    $query = "SELECT * FROM images WHERE cryptocurrency_id=?";
+    $stmt = $pdo->prepare($query);
+    $stmt->execute([$id]);
+    //koliko slik je v bazi za to valuto
+    $st = $stmt->rowCount();
+    if($st >0) {
+?>
+    <div class="bd-example">
+        <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">
+            <ol class="carousel-indicators">
+
+                <?php
+            
+            for($i=0;$i<$st;$i++) {
+                if ($i==0)
+                    echo '<li data-target="#carouselExampleCaptions" data-slide-to="'.$i.'" class="active"></li>';
+                else
+                    echo '<li data-target="#carouselExampleCaptions" data-slide-to="'.$i.'"></li>';
+            }
+        ?>
+
+            </ol>
+            <div class="carousel-inner">
+                <?php
+            $i = 0;
+        while($row=$stmt->fetch()) {
+            if ($i==1)
+                echo '<div class="carousel-item active">'."\n";
+            else
+                echo '<div class="carousel-item">'."\n";
+            
+            echo '<img src="'.$row['url'].'" class="d-block w-100" alt="slika" />'."\n";    
+            echo '<div class="carousel-caption d-none d-md-block">'."\n";    
+            echo '<h5>'.$row['title'].'</h5>';       
+            echo '</div>'."\n";    
+            echo '</div>'."\n";
+            $i++;
+            }
+        ?>
+            </div>
+            <a class="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Predhodnje</span>
+            </a>
+            <a class="carousel-control-next" href="#carouselExampleCaptions" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Naslednje</span>
+            </a>
+        </div>
+    </div>
+    <?php } ?>
+</div>
 
 <div class="container d-flex justify-content-center mt-20">
     <div class="row">
@@ -105,7 +173,8 @@
                                         </div>
                                         <form action="comment_update.php" method="post">
                                             <input type="hidden" name="id" value="<?php echo $row['id'];?>" />
-                                            <textarea name="content" rows="5" cols="25"><?php echo $row['content'];?></textarea> <br />
+                                            <textarea name="content" rows="5"
+                                                cols="25"><?php echo $row['content'];?></textarea> <br />
                                             <input type="submit" value="Uredi" class="btn btn-primary" />
                                         </form>
                                     </div>
@@ -135,11 +204,11 @@
 
     if(admin()) {
         ?>
-        <a href="cryptocurrency_delete.php?id=<?php echo $crypto['id'];?>" class="btn btn-primary"
-        onclick="return confirm('Prepričani?')">Izbriši</a>
+<a href="cryptocurrency_delete.php?id=<?php echo $crypto['id'];?>" class="btn btn-primary"
+    onclick="return confirm('Prepričani?')">Izbriši</a>
 
-        <a href="cryptocurrency_edit.php?id=<?php echo $crypto['id'];?>" class="btn btn-primary">Uredi</a>
-        <?php
+<a href="cryptocurrency_edit.php?id=<?php echo $crypto['id'];?>" class="btn btn-primary">Uredi</a>
+<?php
     }
 
 ?>

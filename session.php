@@ -24,7 +24,7 @@ function admin() {
 }
 
 function adminOnly() {
-    if(!isset($_SESSION['admin']) || ($_SESSION['admin'] == 1)) {
+    if(!isset($_SESSION['admin']) || ($_SESSION['admin'] != 1)) {
         header("Location: index.php");
         die();
     }
